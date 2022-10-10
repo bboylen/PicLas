@@ -1,4 +1,4 @@
-import { Cards } from '@memory-cards/shared/common/Cards';
+import { Cards } from "@piclash/shared/common/Cards";
 import {
   Back,
   Clover10,
@@ -15,7 +15,7 @@ import {
   Spade10,
   SpadeA,
   SpadeQueen,
-} from '@icons/cards/index';
+} from "@icons/cards/index";
 
 export const CardsMap = (card: Cards | null) => {
   switch (card) {

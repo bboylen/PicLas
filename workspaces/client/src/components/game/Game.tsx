@@ -1,15 +1,15 @@
-import { ClientEvents } from '@memory-cards/shared/client/ClientEvents';
-import useSocketManager from '@hooks/useSocketManager';
-import { useRecoilValue } from 'recoil';
-import { CurrentLobbyState } from '@components/game/states';
-import Card from '@components/game/Card';
-import { Badge, LoadingOverlay, Overlay } from '@mantine/core';
-import { MantineColor } from '@mantine/styles';
-import { showNotification } from '@mantine/notifications';
-import { emitEvent } from '@utils/analytics';
+import { ClientEvents } from "@piclash/shared/client/ClientEvents";
+import useSocketManager from "@hooks/useSocketManager";
+import { useRecoilValue } from "recoil";
+import { CurrentLobbyState } from "@components/game/states";
+import Card from "@components/game/Card";
+import { Badge, LoadingOverlay, Overlay } from "@mantine/core";
+import { MantineColor } from "@mantine/styles";
+import { showNotification } from "@mantine/notifications";
+import { emitEvent } from "@utils/analytics";
 
 export default function Game() {
-  const {sm} = useSocketManager();
+  const { sm } = useSocketManager();
   const currentLobbyState = useRecoilValue(CurrentLobbyState)!;
   const clientId = sm.getSocketId()!;
   let clientScore = 0;
@@ -28,23 +28,23 @@ export default function Game() {
   let resultColor: MantineColor;
 
   if (clientScore === opponentScore) {
-    result = 'Draw, no one won!';
-    resultColor = 'yellow';
+    result = "Draw, no one won!";
+    resultColor = "yellow";
   } else if (clientScore > opponentScore) {
-    result = 'You won!';
-    resultColor = 'blue';
+    result = "You won!";
+    resultColor = "blue";
   } else {
-    result = 'You lost...';
-    resultColor = 'red';
+    result = "You lost...";
+    resultColor = "red";
   }
 
   const onRevealCard = (cardIndex: number) => {
     sm.emit({
       event: ClientEvents.GameRevealCard,
-      data: {cardIndex},
+      data: { cardIndex },
     });
 
-    emitEvent('card_revealed');
+    emitEvent("card_revealed");
   };
 
   const onReplay = () => {
@@ -56,7 +56,7 @@ export default function Game() {
       },
     });
 
-    emitEvent('lobby_create');
+    emitEvent("lobby_create");
   };
 
   const copyLobbyLink = async () => {
@@ -64,8 +64,8 @@ export default function Game() {
     await navigator.clipboard.writeText(link);
 
     showNotification({
-      message: 'Link copied to clipboard!',
-      color: 'green',
+      message: "Link copied to clipboard!",
+      color: "green",
     });
   };
 
@@ -74,13 +74,18 @@ export default function Game() {
       <div className="flex justify-between items-center my-5">
         <Badge size="xl">Your score: {clientScore}</Badge>
         <Badge variant="outline">
-          {!currentLobbyState.hasStarted
-            ? (<span>Waiting for opponent...</span>)
-            : (<span>Round {currentLobbyState.currentRound}</span>)
-          }
+          {!currentLobbyState.hasStarted ? (
+            <span>Waiting for opponent...</span>
+          ) : (
+            <span>Round {currentLobbyState.currentRound}</span>
+          )}
         </Badge>
 
-        {currentLobbyState.mode === 'duo' && <Badge size="xl" color="red">Opponent score: {opponentScore}</Badge>}
+        {currentLobbyState.mode === "duo" && (
+          <Badge size="xl" color="red">
+            Opponent score: {opponentScore}
+          </Badge>
+        )}
       </div>
 
       {currentLobbyState.isSuspended && (
@@ -90,14 +95,17 @@ export default function Game() {
       )}
 
       <div className="grid grid-cols-7 gap-4 relative select-none">
-        {currentLobbyState.hasFinished && <Overlay opacity={0.6} color="#000" blur={2} zIndex={5}/>}
-        <LoadingOverlay visible={!currentLobbyState.hasStarted || currentLobbyState.isSuspended}/>
+        {currentLobbyState.hasFinished && (
+          <Overlay opacity={0.6} color="#000" blur={2} zIndex={5} />
+        )}
+        <LoadingOverlay
+          visible={
+            !currentLobbyState.hasStarted || currentLobbyState.isSuspended
+          }
+        />
 
         {currentLobbyState.cards.map((card, i) => (
-          <div
-            key={i}
-            className="col-span-1"
-          >
+          <div key={i} className="col-span-1">
             <Card
               card={card}
               cardIndex={i}
@@ -110,14 +118,20 @@ export default function Game() {
 
       {currentLobbyState.hasFinished && (
         <div className="text-center mt-5 flex flex-col">
-          <Badge size="xl" color={resultColor} className="self-center">{result}</Badge>
-          <button className="mt-3 self-center" onClick={onReplay}>Play again ?</button>
+          <Badge size="xl" color={resultColor} className="self-center">
+            {result}
+          </Badge>
+          <button className="mt-3 self-center" onClick={onReplay}>
+            Play again ?
+          </button>
         </div>
       )}
 
       {!currentLobbyState.hasStarted && (
         <div className="text-center mt-5">
-          <button className="btn" onClick={copyLobbyLink}>Copy lobby link</button>
+          <button className="btn" onClick={copyLobbyLink}>
+            Copy lobby link
+          </button>
         </div>
       )}
     </div>

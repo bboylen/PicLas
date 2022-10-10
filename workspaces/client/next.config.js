@@ -1,7 +1,5 @@
 // Need to transpile typescript from shared workspace
-const withTM = require('next-transpile-modules')([
-  '@memory-cards/shared',
-]);
+const withTM = require("next-transpile-modules")(["@piclash/shared"]);
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {

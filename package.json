@@ -1,8 +1,8 @@
 {
-  "name": "@mazz/memory-cards",
+  "name": "@bboylen/piclash",
   "private": true,
   "version": "1.0.0",
-  "author": "François Steinel",
+  "author": "Brian Boylen",
   "license": "MIT",
   "workspaces": {
     "packages": [
@@ -10,9 +10,9 @@
     ]
   },
   "scripts": {
-    "start:dev:client": "yarn workspace @memory-cards/client start:dev",
-    "start:dev:server": "yarn workspace @memory-cards/server start:dev",
-    "start:prod:client": "yarn workspace @memory-cards/client start:prod",
-    "start:prod:server": "yarn workspace @memory-cards/server start:prod"
+    "start:dev:client": "yarn workspace @piclash/client start:dev",
+    "start:dev:server": "yarn workspace @piclash/server start:dev",
+    "start:prod:client": "yarn workspace @piclash/client start:prod",
+    "start:prod:server": "yarn workspace @piclash/server start:prod"
   }
 }
