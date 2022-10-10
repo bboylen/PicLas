@@ -34,4 +34,4 @@ For deployment, I use docker containers (using Alpine NodeJS images for client a
 
 ## Credits
 
-Created by [Mazzoni](https://github.com/Mazzzoni). (email: [hello@mazz.lol](mailto:hello@mazz.lol) / discord: [@mazz#0385](https://discordapp.com/users/370123066594033668))
+Based off https://github.com/Mazzzoni/memory-cards by [Mazzoni](https://github.com/Mazzzoni)
