@@ -6,7 +6,7 @@ import useSocketManager from "@hooks/useSocketManager";
 import { ServerPayloads } from "@piclash/shared/server/ServerPayloads";
 import { CurrentLobbyState } from "@components/game/states";
 import Introduction from "@components/game/Introduction";
-import Game from "@components/game/Game";
+// import Game from "@components/game/Game";
 import { useRouter } from "next/router";
 import { showNotification } from "@mantine/notifications";
 
@@ -58,6 +58,6 @@ export default function GameManager() {
   if (lobbyState === null) {
     return <Introduction />;
   }
-
-  return <Game />;
+  return <div>Lobby created</div>;
+  // return <Game />;
 }
