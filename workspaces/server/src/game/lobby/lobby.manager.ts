@@ -15,6 +15,6 @@ export class LobbyManager {
   public joinLobby(lobbyId: string, client: AuthenticatedSocket): void {}
 
   // Periodically clean up lobbies
-  @Cron('*/5 * * * *')
+  @Cron('* * * /1 * *')
   private lobbiesCleaner(): void {}
 }
