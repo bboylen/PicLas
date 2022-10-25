@@ -1,3 +1,4 @@
+import { Cron } from '@nestjs/schedule';
 export class LobbyManager {
   public server: Server;
 
@@ -6,9 +7,13 @@ export class LobbyManager {
     Lobby
   >();
 
-  public initializeSocket(client: AuthenticatedSocket): void {}
+  public initializeSocket(client: AuthenticatedSocket): void {
+    client.data.lobby = null;
+  }
 
-  public terminateSocket(client: AuthenticatedSocket): void {}
+  public terminateSocket(client: AuthenticatedSocket): void {
+    client.data.lobby?.removeClient(client);
+  }
 
   public createLobby(mode: LobbyMode, delayBetweenRounds: number): Lobby {}
 
