@@ -9,3 +9,8 @@ export class LobbyCreateDto {
   @Max(5)
   delayBetweenRounds: number;
 }
+
+export class LobbyJoinDto {
+  @IsString()
+  lobbyId: string;
+}

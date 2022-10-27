@@ -4,11 +4,13 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { ValidationError } from 'class-validator';
+import { SocketExceptions } from '@shared/server/SocketExceptions';
+import { ServerException } from '@app/game/server.exception';
 
 @Injectable()
 export class WsValidationPipe extends ValidationPipe {
   createExceptionFactory() {
-    return (ValidationErrors = []) => {
+    return (validationErrors = []) => {
       if (this.isDetailedOutputDisabled) {
         return new ServerException(
           SocketExceptions.UnexpectedError,
