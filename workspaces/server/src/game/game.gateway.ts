@@ -22,10 +22,8 @@ export class GameGateway
   constructor(private readonly lobbyManager: LobbyManager) {}
 
   afterInit(server: Server): any {
-    console.log('asdfsdfsdfs');
     this.lobbyManager.server = server;
     this.logger.log('Game server initialized');
-    console.log(this.lobbyManager);
   }
 
   async handleConnection(client: Socket, ...args: any[]): Promise<void> {
