@@ -4,10 +4,12 @@ import {
   OnGatewayConnection,
   OnGatewayDisconnect,
   OnGatewayInit,
+  WsResponse,
 } from '@nestjs/websockets';
 import { Socket, Server } from 'socket.io';
 import { UsePipes, Logger } from '@nestjs/common';
 import { ServerEvents } from '@shared/server/ServerEvents';
+import { ServerPayloads } from '@shared/server/ServerPayloads';
 import { ClientEvents } from '@shared/client/ClientEvents';
 import { WsValidationPipe } from '@app/websocket/ws.validation-pipe';
 import { AuthenticatedSocket } from '@app/game/types';
@@ -45,10 +47,7 @@ export class GameGateway
   onLobbyCreate(
     client: AuthenticatedSocket,
   ): WsResponse<ServerPayloads[ServerEvents.GameMessage]> {
-    const lobby = this.lobbyManager.createLobby(
-      data.mode,
-      data.delayBetweenRounds,
-    );
+    const lobby = this.lobbyManager.createLobby();
     lobby.addClient(client);
 
     return {
