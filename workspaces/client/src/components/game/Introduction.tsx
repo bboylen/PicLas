@@ -23,7 +23,6 @@ export default function Introduction() {
   const onCreateLobby = () => {
     sm.emit({
       event: ClientEvents.LobbyCreate,
-      data: {},
     });
   };
 

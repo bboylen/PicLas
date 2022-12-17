@@ -41,23 +41,22 @@ export class GameGateway
     });
   }
 
-  // @SubscribeMessage(ClientEvents.LobbyCreate)
-  // onLobbyCreate(
-  //   client: AuthenticatedSocket,
-  //   data: LobbyCreateDto,
-  // ): WsResponse<ServerPayloads[ServerEvents.GameMessage]> {
-  //   const lobby = this.lobbyManager.createLobby(
-  //     data.mode,
-  //     data.delayBetweenRounds,
-  //   );
-  //   lobby.addClient(client);
+  @SubscribeMessage(ClientEvents.LobbyCreate)
+  onLobbyCreate(
+    client: AuthenticatedSocket,
+  ): WsResponse<ServerPayloads[ServerEvents.GameMessage]> {
+    const lobby = this.lobbyManager.createLobby(
+      data.mode,
+      data.delayBetweenRounds,
+    );
+    lobby.addClient(client);
 
-  //   return {
-  //     event: ServerEvents.GameMessage,
-  //     data: {
-  //       color: 'green',
-  //       message: 'Lobby created',
-  //     },
-  //   };
-  // }
+    return {
+      event: ServerEvents.GameMessage,
+      data: {
+        color: 'green',
+        message: 'Lobby created',
+      },
+    };
+  }
 }
