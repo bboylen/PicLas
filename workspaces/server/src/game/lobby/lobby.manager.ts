@@ -38,6 +38,10 @@ export class LobbyManager {
     lobby.addClient(client);
   }
 
+  public getLobby(lobbyId: string): Lobby | undefined {
+    return this.lobbies.get(lobbyId);
+  }
+
   // Periodically clean up lobbies
   // @Cron('* * * /1 * *')
   // private lobbiesCleaner(): void {}

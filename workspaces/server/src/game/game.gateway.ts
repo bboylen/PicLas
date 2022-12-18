@@ -10,6 +10,7 @@ import { Socket, Server } from 'socket.io';
 import { UsePipes, Logger } from '@nestjs/common';
 import { ServerEvents } from '@shared/server/ServerEvents';
 import { ServerPayloads } from '@shared/server/ServerPayloads';
+import { ClientPayloads } from '@shared/client/ClientPayloads';
 import { ClientEvents } from '@shared/client/ClientEvents';
 import { WsValidationPipe } from '@app/websocket/ws.validation-pipe';
 import { AuthenticatedSocket } from '@app/game/types';
@@ -57,5 +58,31 @@ export class GameGateway
         message: 'Lobby created',
       },
     };
+  }
+
+  @SubscribeMessage(ClientEvents.LobbyJoin)
+  onLobbyJoin(
+    client: AuthenticatedSocket,
+    data: ClientPayloads[ClientEvents.LobbyJoin],
+  ): WsResponse<ServerPayloads[ServerEvents.GameMessage]> {
+    const lobby = this.lobbyManager.getLobby(data['lobbyId']);
+    if (lobby) {
+      lobby.addClient(client);
+      return {
+        event: ServerEvents.GameMessage,
+        data: {
+          color: 'green',
+          message: 'Lobby joined',
+        },
+      };
+    } else {
+      return {
+        event: ServerEvents.GameMessage,
+        data: {
+          color: 'red',
+          message: 'Could not join lobby',
+        },
+      };
+    }
   }
 }

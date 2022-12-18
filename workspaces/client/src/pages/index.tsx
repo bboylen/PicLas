@@ -3,7 +3,7 @@ import GameManager from "@components/game/GameManager";
 
 const Page: NextPage = () => {
   return (
-    <div className="container max-w-2xl mt-16">
+    <div className="container max-w-3xl mt-16">
       <GameManager />
     </div>
   );
