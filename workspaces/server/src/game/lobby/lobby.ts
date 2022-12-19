@@ -1,4 +1,3 @@
-import { v4 } from 'uuid';
 import { AuthenticatedSocket } from '@app/game/types';
 import { Socket, Server } from 'socket.io';
 import { ServerEvents } from '@shared/server/ServerEvents';
@@ -19,11 +18,8 @@ export class Lobby {
     this.clients.set(client.id, client);
     client.join(this.id);
     client.data.lobby = this;
-
-    // if (this.clients.size >= this.maxClients) {
-    //   this.instance.triggerStart();
-    // }
-
+    client.data.name = 'Test' + Math.floor(Math.random() * 10).toString();
+    // return all client name information to browsers
     this.dispatchLobbyState();
   }
 
@@ -46,6 +42,9 @@ export class Lobby {
   public dispatchLobbyState(): void {
     const payload: ServerPayloads[ServerEvents.LobbyState] = {
       lobbyId: this.id,
+      names: Array.from(this.clients.values()).map(
+        (client) => client.data.name,
+      ),
     };
 
     this.dispatchToLobby(ServerEvents.LobbyState, payload);
