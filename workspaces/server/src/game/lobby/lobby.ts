@@ -18,7 +18,7 @@ export class Lobby {
     this.clients.set(client.id, client);
     client.join(this.id);
     client.data.lobby = this;
-    client.data.name = 'Test' + Math.floor(Math.random() * 10).toString();
+    client.data.name = 'Player' + Math.floor(Math.random() * 10).toString();
     // return all client name information to browsers
     this.dispatchLobbyState();
   }
@@ -42,12 +42,18 @@ export class Lobby {
   public dispatchLobbyState(): void {
     const payload: ServerPayloads[ServerEvents.LobbyState] = {
       lobbyId: this.id,
-      names: Array.from(this.clients.values()).map(
-        (client) => client.data.name,
-      ),
+      names: Object.fromEntries(this.getClientNames()),
     };
-
+    console.log(payload);
     this.dispatchToLobby(ServerEvents.LobbyState, payload);
+  }
+
+  public getClientNames(): Map<Socket['id'], string> {
+    const names = new Map<Socket['id'], string>();
+    this.clients.forEach((client) => {
+      names.set(client.id, client.data.name);
+    });
+    return names;
   }
 
   public dispatchToLobby<T>(event: ServerEvents, payload: T): void {

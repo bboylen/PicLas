@@ -10,5 +10,23 @@ export default function Lobby(props: lobbyState) {
   const { sm } = useSocketManager();
   const [lobbyId, setLobbyId] = useState("");
 
-  return <div>hi</div>;
+  const names = Array(Object.values(lobbyState.names));
+
+  const router = useRouter();
+
+  useEffect(() => {
+    setLobbyId(router.query.lobby as string);
+  }, [router.query.lobby]);
+
+  return (
+    <div>
+      <h1>Lobby</h1>
+      <h2>Players:</h2>
+      <ul>
+        {names.map((name) => {
+          return <li key={name}>{name}</li>;
+        })}
+      </ul>
+    </div>
+  );
 }
