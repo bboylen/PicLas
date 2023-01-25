@@ -10,6 +10,7 @@
     ]
   },
   "scripts": {
+    "start:dev": "yarn start:dev:client && yarn start:dev:server",
     "start:dev:client": "yarn workspace @piclash/client start:dev",
     "start:dev:server": "yarn workspace @piclash/server start:dev",
     "start:prod:client": "yarn workspace @piclash/client start:prod",
