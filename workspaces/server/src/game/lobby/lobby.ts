@@ -6,8 +6,8 @@ import { ServerPayloads } from '@shared/server/ServerPayloads';
 export class Lobby {
   public readonly id: string = Math.random().toString(36).substring(2, 8);
   public readonly createdAt: Date = new Date();
-  public readonly clients: Map<Socket['id'], AuthenticatedSocket> = new Map<
-    Socket['id'],
+  public readonly clients: Map<string, AuthenticatedSocket> = new Map<
+    string,
     AuthenticatedSocket
   >();
   // public readonly instance: Instance = new Instance(this);
@@ -15,7 +15,7 @@ export class Lobby {
   constructor(private readonly server: Server) {}
 
   public addClient(client: AuthenticatedSocket): void {
-    this.clients.set(client.id, client);
+    this.clients.set(client.handshake.auth.sessionId, client);
     client.join(this.id);
     client.data.lobby = this;
     client.data.name = 'Player' + Math.floor(Math.random() * 10).toString();
@@ -48,10 +48,11 @@ export class Lobby {
     this.dispatchToLobby(ServerEvents.LobbyState, payload);
   }
 
-  public getClientNames(): Map<Socket['id'], string> {
-    const names = new Map<Socket['id'], string>();
+  // Refactor?
+  public getClientNames(): Map<string, string> {
+    const names = new Map<string, string>();
     this.clients.forEach((client) => {
-      names.set(client.id, client.data.name);
+      names.set(client.handshake.auth.sessionId, client.data.name);
     });
     return names;
   }

@@ -6,6 +6,9 @@ import { ServerEvents } from "@piclash/shared/server/ServerEvents";
 import { ServerExceptionResponse } from "@piclash/shared/server/types";
 import { Listener } from "@components/websocket/types";
 import { SocketState } from "@components/websocket/SocketState";
+import sessionIdState from "@components/sessionId";
+import { useRecoilValue } from "recoil";
+import { v4 as uuid } from "uuid";
 
 type EmitOptions<T> = {
   event: ClientEvents;
@@ -25,6 +28,9 @@ export default class SocketManager {
       path: "/wsapi",
       transports: ["websocket"],
       withCredentials: true,
+      auth: {
+        sessionId: this.getOrSetSessionId(),
+      },
     });
 
     this.onConnect();
@@ -74,6 +80,17 @@ export default class SocketManager {
         this.connectionLost = false;
       }
     });
+  }
+
+  private getOrSetSessionId() {
+    if (typeof window === "undefined") return null;
+
+    let sessionId = sessionStorage.getItem("sessionId");
+    if (!sessionId) {
+      sessionId = uuid();
+      sessionStorage.setItem("sessionId", sessionId);
+    }
+    return sessionId;
   }
 
   private onDisconnect(): void {
