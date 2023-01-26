@@ -57,6 +57,11 @@ export class Lobby {
     return names;
   }
 
+  public updateName(client: AuthenticatedSocket, name: string): void {
+    client.data.name = name;
+    this.dispatchLobbyState();
+  }
+
   public dispatchToLobby<T>(event: ServerEvents, payload: T): void {
     this.server.to(this.id).emit(event, payload);
   }

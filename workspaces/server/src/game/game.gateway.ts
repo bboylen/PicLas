@@ -85,4 +85,14 @@ export class GameGateway
       };
     }
   }
+
+  @SubscribeMessage(ClientEvents.NameChange)
+  onNameChange(
+    client: AuthenticatedSocket,
+    data: ClientPayloads[ClientEvents.NameChange],
+  ): void {
+    if (client.data.lobby) {
+      client.data.lobby.updateName(client, data['name']);
+    }
+  }
 }
